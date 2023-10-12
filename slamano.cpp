@@ -1,3 +1,12 @@
+/*
+Curso - Ciência da Computação - 10B
+
+Integrantes - Henrique, Mateus Mendes da Silva, Henrique
+
+Base - lms-jun22qtr-csv 
+
+*/
+
 #include <iostream>
 #include <fstream>
 #include <algorithm>
@@ -6,6 +15,7 @@
 #include <cstring>
 
 using namespace std;
+
 struct exame{
     char Series_reference[50];
     char Period[50];
@@ -22,33 +32,80 @@ struct exame{
     char Series_title_5[50];
 };
 
-#include <iostream>
-#include <iomanip>
-#include <cmath>
+class Arquivo{
+    private : 
+    fstream arquivo;
+    exame aux;
+    void ImprimirDados(exame Dado);
 
-using namespace std;
+    public :
+    Arquivo();
+    ~Arquivo();
+    Arquivo(string FileName);
+    void MostrarDados();
+    void MostrarTodos();
+    void Adicionar();
+    void AlterarDado();
+    void TrocarPosicao();
+
+};
+
+Arquivo::Arquivo(){
+    arquivo = fstream("arquivo_binario.bin", ios::binary | ios::app | ios::in | ios::ate);
+};
+
+Arquivo::~Arquivo(){
+    arquivo.close();
+};
+
+Arquivo::Arquivo(string FileName){
+    arquivo = fstream(FileName+".bin", ios::binary | ios::app | ios::in | ios::ate);
+};
+
+void Arquivo::MostrarDados(){
+    int posicao1, posicao2;
+    cin >> posicao1 >> posicao2;
+
+    for(int i = posicao1; i < posicao2; i++){
+        arquivo.seekg(sizeof(exame)*i, ios::beg);
+        arquivo.read(reinterpret_cast<char*>(&aux), sizeof(exame));
+        ImprimirDados(aux);
+    }
+};
+
+void Arquivo::ImprimirDados(exame Dado){
+    cout << Dado.Series_reference << " " << Dado.Period << endl; 
+}
 
 int main() {
     
+    string FileName;
 
-    fstream arq("arquivo_binario.bin", ios::binary | ios::app | ios::in | ios::ate);
+    Arquivo arq;
 
-    exame aux;
-    int posicao;
-	cout << endl << "---------------------------------------------"<< endl;
-	arq.clear();
-	arq.seekg(sizeof(exame)*1263020, ios::beg);
-	arq.read(reinterpret_cast<char*>(&aux), sizeof(exame));
+    cout << "Digite o nome do arquivo \n";
+    cin >> FileName;
 
-    cout << aux.Data_value;
+    Arquivo arq_binario(FileName);
 
-    // cin >> posicao;
+    arq_binario.MostrarDados();
+
+    // exame aux;
+    // int posicao;
+	// cout << endl << "---------------------------------------------"<< endl;
+	// arq.clear();
+	// arq.seekg(sizeof(exame)*1263020, ios::beg);
+	// arq.read(reinterpret_cast<char*>(&aux), sizeof(exame));
+
+    // cout << aux.Data_value;
+
+    // // cin >> posicao;
     
-    // arq.seekp(sizeof(exame)*1, ios::beg);
-    // arq.write(reinterpret_cast<const char*>(&aux), sizeof(exame));
+    // // arq.seekp(sizeof(exame)*1, ios::beg);
+    // // arq.write(reinterpret_cast<const char*>(&aux), sizeof(exame));
 
 
-    arq.close();
+    // arq.close();
 
 
     return 0;
