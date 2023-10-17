@@ -3,7 +3,7 @@ Curso - Ciência da Computação - 10B
 
 Integrantes - Henrique, Mateus Mendes da Silva, Henrique
 
-Base - lms-jun22qtr-csv 
+Base - lms-jun22qtr-csv
 
 */
 
@@ -33,7 +33,7 @@ struct exame{
 };
 
 class Arquivo{
-    private : 
+    private :
     fstream arquivo;
     exame aux;
     void ImprimirDados(exame Dado);
@@ -74,16 +74,29 @@ void Arquivo::MostrarDados(){
 };
 
 void Arquivo::ImprimirDados(exame Dado){
-    cout << Dado.Series_reference << " " << Dado.Period << endl; 
+    cout << Dado.Series_reference << " " << Dado.Period << endl;
+}
+
+void Arquivo::AlterarDado(){
+    int index;
+    cin >> index;
+
+    arquivo.seekg(sizeof(exame)*index, ios::beg);
+    arquivo.read(reinterpret_cast<char*>(&aux), sizeof(exame));
+    ImprimirDados(aux);
+
+    cout << "Qual dado deseja alterar? : ";
+
+    arquivo.seekp(sizeof(exame)*index, ios::beg);
+    arquivo.write(reinterpret_cast<const char*>(&aux), sizeof(exame));
+
 }
 
 int main() {
-    
+
     string FileName;
 
-    Arquivo arq;
-
-    cout << "Digite o nome do arquivo \n";
+    cout << "Digite o nome do arquivo \nNome : ";
     cin >> FileName;
 
     Arquivo arq_binario(FileName);
@@ -100,7 +113,7 @@ int main() {
     // cout << aux.Data_value;
 
     // // cin >> posicao;
-    
+
     // // arq.seekp(sizeof(exame)*1, ios::beg);
     // // arq.write(reinterpret_cast<const char*>(&aux), sizeof(exame));
 
