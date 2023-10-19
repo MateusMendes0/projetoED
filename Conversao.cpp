@@ -10,11 +10,11 @@ struct exame{
     char Series_reference[50];
     char Period[50];
     // char Data_value[50];
-    float Data_value;
+    double Data_value;
     char STATUS[50];
     char UNITS[50];
     // char MAGNTUDE[50];
-    float MAGNTUDE;
+    double MAGNTUDE;
     char Subject[50];
     char Group[50];
     char Series_title_1[50];
@@ -31,19 +31,25 @@ Series_reference,Period,Data_value,STATUS,UNITS,MAGNTUDE,Subject,Group,Series_ti
 exame leitura(ifstream& arq){  // Le o arquivo CSV e retorna uma Struct que é adicionado a um vetor
 	    exame exames;
 		char lixo;
-		string nome = "";
+		string nome;
 		getline(arq,nome,',');
 		strncpy(exames.Series_reference, nome.c_str(), sizeof(exames.Series_reference) - 1);
 
 		getline(arq,nome,',');
 		strncpy(exames.Period, nome.c_str(), sizeof(exames.Period) - 1);
 
-        // getline(arq,nome,',');
+        getline(arq,nome,',');
+        if(nome != ""){
+        exames.Data_value = stod(nome);
+        }
+        else{
+            exames.Data_value = 0;
+        }
 		// strncpy(exames.Data_value, nome.c_str(), sizeof(exames.Data_value) - 1);
 
-        arq >> exames.Data_value;
+        // arq >> exames.Data_value;
         // cout << exames.Data_value << " ";
-        arq >> lixo;
+        // arq >> lixo;
 
 
 		getline(arq,nome,',');
@@ -52,13 +58,19 @@ exame leitura(ifstream& arq){  // Le o arquivo CSV e retorna uma Struct que é a
         getline(arq,nome,',');
 		strncpy(exames.UNITS, nome.c_str(), sizeof(exames.UNITS) - 1);
 
-        // getline(arq,nome,',');
+        getline(arq,nome,',');
+        if(nome != ""){
+        exames.MAGNTUDE = stod(nome);
+        }
+        else{
+            exames.MAGNTUDE = 0;
+        }
 		// strncpy(exames.MAGNTUDE, nome.c_str(), sizeof(exames.MAGNTUDE) - 1);
 
-        arq >> exames.MAGNTUDE;
+        // arq >> exames.MAGNTUDE;
 
         // cout << exames.MAGNTUDE << endl;
-        arq >> lixo;
+        // arq >> lixo;
 
         getline(arq,nome,',');
 		strncpy(exames.Subject, nome.c_str(), sizeof(exames.Subject) - 1);
@@ -88,12 +100,16 @@ exame leitura(ifstream& arq){  // Le o arquivo CSV e retorna uma Struct que é a
 
 int main() {
     
-    fstream arq("arquivo_binario1.bin", ios::binary | ios::app | ios::in | ios::ate);
+    ifstream arquivo_csv("arq_csv.csv");
+
+    if(!arquivo_csv){
+        cout << "Arquivo CSV nao encontrado";
+        return 0;
+    }
+    fstream arq("arquivo_binario.bin", ios::binary | ios::app | ios::in | ios::ate);
     string campos;
     exame teste;
 
-//while(!file.eof())
-    ifstream arquivo_csv("teste.csv");
     getline(arquivo_csv,campos);
 
     while(!arquivo_csv.eof()){

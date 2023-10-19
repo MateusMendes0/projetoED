@@ -20,11 +20,11 @@ struct exame{
     char Series_reference[50];
     char Period[50];
     // char Data_value[50];
-    int Data_value;
+    double Data_value;
     char STATUS[50];
     char UNITS[50];
     // char MAGNTUDE[50];
-    int MAGNTUDE;
+    double MAGNTUDE;
     char Subject[50];
     char Group[50];
     char Series_title_1[50];
@@ -222,7 +222,7 @@ int main() {
     do{
         cout<< "---------------------------------------------"<< endl;
         cout<< "[1] Mostrar Dados"<< endl;
-        cout<< "[2] Adicionar Empresa"<< endl;
+        cout<< "[2] Adicionar "<< endl;
 		cout<< "[3] Buscar Empresa" << endl;
 		cout<< "[4] Editar Empresa" << endl;
 		cout<< "[5] Remover Empresa" << endl;
@@ -252,6 +252,7 @@ int main() {
             break;
         
         default:
+            cout << "Opção não é válida\n";
             break;
         }
 
